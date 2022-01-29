@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios发送ajax请求</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.9.1/axios.min.js"></script>
+</head>
+
+<body>
+
+    <button>GET</button>
+    <button>POST</button>
+    <button>AJAX</button>
+
+
+    <script>
+        const btns = document.querySelectorAll('button')
+
+        //配置baseURl
+        axios.defaults.baseURL = 'http://127.0.0.1:8000'
+        btns[0].onclick = function() {
+            //get请求
+            axios.get('/axios-server', {
+                //url参数
+                params: {
+                    id: 100,
+                    vip: 4
+                },
+                //请求头信息
+                headers: {
+                    name: 'emmm',
+                    age: 20
+                }
+            }).then(value => {
+                console.log(value)
+            })
+        }
+
+        btns[1].onclick = function() {
+            axios.post('/axios-server', {
+                username: 'admin',
+                password: 'admin'
+            }, {
+                params: {
+                    id: 100,
+                    vip: 2
+                },
+                headers: {
+                    height: 180,
+                    weight: 180
+                },
+
+            })
+        }
+
+        btns[2].onclick = function() {
+            axios({
+                //请求方法  默认get
+                method: 'post',
+                //url
+                url: '/axios-server',
+                params: {
+                    vip: 23,
+                    level: 34
+                },
+                //头信息
+                headers: {
+                    a: 100,
+                    b: 200
+                },
+                //请求体参数
+                data: {
+                    username: 'admin',
+                    password: 'admin'
+                }
+            }).then(e => {
+                console.log(e)
+                    //响应状态码
+                console.log(e.status)
+            })
+        }
+    </script>
+</body>
+
+
+</html>
