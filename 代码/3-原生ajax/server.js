@@ -107,7 +107,8 @@ app.all('/axios-vue', (request, response) => {
 
 
     // 因为没有连接数据库,所以把前端显示的数据一起传过来更新
-    // 当传入参数的时候 默认为post方法, 添加数据
+    // 当传入参数的时候 默认为post方法, 添加数据, 
+    // post方式用  request.body. 获取参数
     if (request.body.name) {
         // 获取前端显示的数据
         result = JSON.parse(request.body.list);
@@ -117,8 +118,26 @@ app.all('/axios-vue', (request, response) => {
         result.push({ id: id, name: request.body.name, ctime: new Date() })
         let str = JSON.stringify(result)
         response.end(str)
+
+        // get 方式用 request.query. 获取参数
+    } else if (request.query.id) {
+        let id = request.query.id
+        let _result = []
+        result = JSON.parse(request.query.list);
+
+        for (let index = 0; index < result.length; index++) {
+            let _id = result[index].id
+            if (id != _id) {
+                _result.push(result[index])
+            }
+        }
+
+        response.end(JSON.stringify(_result))
+
     } else {
         // 第一次直接返回数据
+        // console.log("first-----")
+        // console.log(request)
         let str = JSON.stringify(result)
 
         response.end(str)
